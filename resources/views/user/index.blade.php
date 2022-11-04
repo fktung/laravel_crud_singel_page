@@ -51,8 +51,10 @@
               <th scope="row">{{ $loop->iteration }}</th>
               <td class="d-flex">
                 <a href="{{ url('/user', [$row->id]) }}" class="btn badge bg-primary text-decoration-none mx-1">Edit</a>
-                <form action="{{ route('user.destroy', ['id'=>$row->id]) }}" method="post">
-                  <button type="submit" class="btn inline badge bg-danger text-decoration-none mx-1">Delete</button>
+                <form id="delete" action="{{ route('user.destroy', ['id'=>$row->id]) }}" method="post">
+                  @csrf
+                  @method('delete')
+                  <button type="button" onclick="del()" class="btn inline badge bg-danger text-decoration-none mx-1">Delete</button>
                 </form>
               </td>
               <td>{{ $row->name }}</td>
@@ -125,6 +127,12 @@
               '',
               'error'
           )
+      }
+      let hapus = document.querySelector('#delete');
+      function del() {
+        if (confirm('apakah anda yakin?')) {
+          hapus.submit();
+        }
       }
     </script>
   @endpush

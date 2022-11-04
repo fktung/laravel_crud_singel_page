@@ -8,7 +8,7 @@
           </div>
           
           <div class="col-sm d-flex flex-row-reverse bd-highlight">
-            <a href="{{ url('user/add') }}" class="btn btn-success">Add Transaction</a>
+            <a href="{{ url('transaction/add') }}" class="btn btn-success">Add Transaction</a>
           </div>
         </div>
       </div>
@@ -39,34 +39,35 @@
             <tr>
               <th scope="col">#</th>
               <th scope="col">Action</th>
-              <th scope="col">Nama</th>
-              <th scope="col">Email</th>
-              <th scope="col">Role</th>
-              <th scope="col">Terdaftar</th>
+              <th scope="col">Kode</th>
+              <th scope="col">Product</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
             </tr>
           </thead>
           <tbody>
-            {{-- @foreach ($user as $row)
+            @foreach ($transaction as $row)
             <tr>
               <th scope="row">{{ $loop->iteration }}</th>
               <td class="d-flex">
-                <a href="{{ url('/user', [$row->id]) }}" class="btn badge bg-primary text-decoration-none mx-1">Edit</a>
-                <form action="{{ route('user.destroy', ['id'=>$row->id]) }}" method="post">
+                <a href="{{ url('/transaction', [$row->kode]) }}" class="btn badge bg-primary text-decoration-none mx-1">Edit</a>
+                {{-- <a href="{{ url('/transaction/detail', [$row->kode]) }}" class="btn badge bg-secondary text-decoration-none mx-1">Detail</a> --}}
+                {{-- <form action="{{ route('transaction.destroy', ['id'=>$row->id]) }}" method="post">
                   <button type="submit" class="btn inline badge bg-danger text-decoration-none mx-1">Delete</button>
-                </form>
+                </form> --}}
               </td>
-              <td>{{ $row->name }}</td>
-              <td>{{ $row->email }}</td>
+              <td>{{ $row->kode }}</td>
               <td>
-                @foreach ($roles as $role)
-                  @if($row->roleId === $role->id)
-                    {{ $role->name }}
+                @foreach ($products as $product)
+                  @if($row->productId === $product->id)
+                    {{ $product->name }}
                   @endif
                 @endforeach
               </td>
-              <td>{{ $row->created_at->diffForHumans() }}</td>
+              <td>{{ $row->quantity }}</td>
+              <td>{{ $row->total }}</td>
             </tr>
-            @endforeach --}}
+            @endforeach
           </tbody>
 
         </table>

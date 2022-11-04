@@ -34,7 +34,12 @@ class UserController extends Controller
         );
         if($request->password !== $request->verifPassword) return redirect()->route('user.add')->with('verifPassword', 'Verif Password Tidak cocok')->with(old());
 
-        User::create($request->all());
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'roleId' => $request->roleId,
+            'password' => Hash::make($request->password),
+        ]);
         return redirect()->route('user.index')->with('massage', 'User berhasi ditambahkan');
     }
 
@@ -83,6 +88,6 @@ class UserController extends Controller
         if(!$user) { return redirect()->route('user.index');}
         User::destroy($user->id);
 
-        return redirect()->route('desa.index')->with('massage', 'User ' . $user->name . ' berhasi Dihapus');
+        return redirect()->route('user.index')->with('massage', 'User ' . $user->name . ' berhasi Dihapus');
     }
 }

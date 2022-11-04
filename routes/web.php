@@ -52,9 +52,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('transaction')->name('transaction.')->group(function() {
         Route::get('', [TransactionController::class, 'index'])->name('index');
         Route::get('add', [TransactionController::class, 'add'])->name('add');
-        Route::get('{id}', [TransactionController::class, 'edit'])->name('edit');
+        Route::get('detail/{kode}', [TransactionController::class, 'detail'])->name('detail');
+        Route::get('{kode}', [TransactionController::class, 'edit'])->name('edit');
         Route::post('', [TransactionController::class, 'store'])->name('store');
-        Route::put('{id}', [TransactionController::class, 'update'])->name('update');
-        Route::delete('{id}', [TransactionController::class, 'destroy'])->name('destroy');
+        Route::put('{kode}', [TransactionController::class, 'update'])->name('update');
+        // Route::delete('{id}', [TransactionController::class, 'destroy'])->name('destroy');
     });
 });

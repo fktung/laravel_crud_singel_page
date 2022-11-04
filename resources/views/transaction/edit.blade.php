@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Add Transaction</h1>
+            <h1 class="m-0">Edit Transaction</h1>
           </div>
 
         </div>
@@ -21,15 +21,19 @@
         <div class="row">
           <div class="col-md-8">
 
-            <form action="{{ route('transaction.store') }}" method="post">
+            {{-- <form action="{{ route('routeName', ['id'=>1]) }}" method="post"> --}}
+            <form action="{{ route('transaction.update', ['kode' => $transaction->kode]) }}" method="post">
+              @method('put')
               @csrf
+              
+              <input type="text" class="form-control" id="kode" name="kode" value="{{ $transaction->kode }}" hidden>
               <div class="mb-3 row">
                 <label for="product" class="col-sm-2 col-form-label">Product</label>
                 <div class="col-sm-10">
                   <select onchange="totalHarga()" id="harga-product" class="form-select @error('productId') is-invalid @enderror" id="product" name="productId">
                     <option value="">Select Produc</option>
                     @foreach ($products as $row)
-                    @if ( old('productId') == $row->id )
+                    @if ( $transaction->productId == $row->id )
                       <option selected data-harga="{{$row->price}}" value="{{$row->id}}">{{$row->name}} - stock = {{$row->stock}}</option>
                     @else
                       <option data-harga="{{$row->price}}" value="{{$row->id}}">{{$row->name}} - stock = {{$row->stock}}</option>
@@ -46,7 +50,7 @@
               <div class="mb-3 row">
                 <label for="quantity" class="col-sm-2 col-form-label">Quantity</label>
                 <div class="col-sm-10">
-                  <input onchange="totalHarga()" type="number" class="form-control @error('quantity') is-invalid @enderror" id="quantity" name="quantity" value="{{ old('quantity') }}" placeholder="Quantity">
+                  <input onchange="totalHarga()" type="number" class="form-control @error('quantity') is-invalid @enderror" id="quantity" name="quantity" value="{{ $transaction->quantity }}" placeholder="Quantity">
                   @error('quantity')
                   <div id="quantity" class="invalid-feedback">
                     {{ $message }}
@@ -82,13 +86,14 @@
               'error'
           )
       }
-      
       let hargaProduct = document.getElementById('harga-product');
       let quantity = document.getElementById('quantity');
       let total = document.getElementById('total');
+      let harga = hargaProduct.options[hargaProduct.selectedIndex].getAttribute('data-harga');
+      total.value = harga * quantity.value
       function totalHarga() {
-          let harga = hargaProduct.options[hargaProduct.selectedIndex].getAttribute('data-harga');
-          total.value = harga * quantity.value
+        harga = hargaProduct.options[hargaProduct.selectedIndex].getAttribute('data-harga');
+        total.value = harga * quantity.value
       }
     </script>
   @endpush
